@@ -5,6 +5,8 @@ from logger import log_state, log_event
 from player import Player
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
+from shot import Shot
+
 
 
 def main():
@@ -14,12 +16,14 @@ def main():
     dt = 0
 
     updatable = pygame.sprite.Group()
-    drawable = pygame.sprite.Group()
+    drawable  = pygame.sprite.Group()
     asteroids = pygame.sprite.Group()
+    shots     = pygame.sprite.Group()
 
     Player.containers = (updatable, drawable)
     Asteroid.containers = (asteroids, updatable, drawable)
     AsteroidField.containers = (updatable)
+    Shot.containers = (shots, updatable, drawable)
 
     x = SCREEN_WIDTH / 2
     y = SCREEN_HEIGHT / 2
@@ -31,6 +35,10 @@ def main():
         log_state()
         
         for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    player.shoot()
+
             if event.type == pygame.QUIT:
                 print("Hasta la vista.")
                 return
